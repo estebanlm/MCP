@@ -683,6 +683,22 @@ MCPToolEdit >> undeclaredVariableCauseMessageFor: anError [
 ]
 
 { #category : 'private - errors' }
+MCPToolEdit >> undeclaredVariableNameFor: anError [
+
+	| node notice |
+	node := self undeclaredVariableNodeFrom: anError.
+	(node notNil and: [ node respondsTo: #name ]) ifTrue: [
+		^ node name asString ].
+	notice := self undeclaredVariableNoticeFrom: anError.
+	notice ifNil: [ ^ nil ].
+	(notice respondsTo: #node) ifFalse: [ ^ nil ].
+	node := notice node.
+	node ifNil: [ ^ nil ].
+	(node respondsTo: #name) ifFalse: [ ^ nil ].
+	^ node name asString
+]
+
+{ #category : 'private - errors' }
 MCPToolEdit >> undeclaredVariableNodeFrom: anError [
 
 	^ PharoCompatibility undeclaredVariableNodeFromException: anError
@@ -699,22 +715,6 @@ MCPToolEdit >> undeclaredVariableNoticeFrom: anError [
 	(#( 'OCUndeclaredVariableNotice' 'OCUndeclaredVariableWarning' )
 		 includes: anError class name asString) ifTrue: [ ^ anError ].
 	^ nil
-]
-
-{ #category : 'private - errors' }
-MCPToolEdit >> undeclaredVariableNameFor: anError [
-
-	| node notice |
-	node := self undeclaredVariableNodeFrom: anError.
-	(node notNil and: [ node respondsTo: #name ]) ifTrue: [
-		^ node name asString ].
-	notice := self undeclaredVariableNoticeFrom: anError.
-	notice ifNil: [ ^ nil ].
-	(notice respondsTo: #node) ifFalse: [ ^ nil ].
-	node := notice node.
-	node ifNil: [ ^ nil ].
-	(node respondsTo: #name) ifFalse: [ ^ nil ].
-	^ node name asString
 ]
 
 { #category : 'private - refactoring' }

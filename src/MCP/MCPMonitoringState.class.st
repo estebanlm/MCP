@@ -6,8 +6,6 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'enabled',
-		'logger',
-		'memoryLogger',
 		'statsByTool',
 		'recentCalls',
 		'nextCallId',
@@ -54,37 +52,35 @@ MCPMonitoringState >> captureTraceSnapshotsFor: aRecord result: aToolResult erro
 		ensure: [ aRecord inputObject: nil ]
 ]
 
-{ #category : 'clearing' }
+{ #category : 'operations' }
 MCPMonitoringState >> clear [
 
 	self statsByTool removeAll.
 	self recentCalls removeAll.
 	nextCallId := 0.
 	lastActivityAt := nil.
-	self clearLogs.
-	self recordLog: 'Observability cleared'
+
+	logger info: 'Observability cleared'
 ]
 
 { #category : 'logging' }
 MCPMonitoringState >> clearLogs [
 
-	memoryLogger ifNotNil: [ memoryLogger clearLog ]
 ]
 
-{ #category : 'activation' }
+{ #category : 'operations' }
 MCPMonitoringState >> disable [
 
-	self enabled ifTrue: [ self recordLog: 'Observability disabled' ].
+	self enabled ifTrue: [ logger info: 'Observability disabled' ].
 	enabled := false
 ]
 
-{ #category : 'activation' }
+{ #category : 'operations' }
 MCPMonitoringState >> enable [
 
 	enabled := true.
-	self ensureLogger.
 	lastActivityAt := DateAndTime now.
-	self recordLog: 'Observability enabled'
+	logger info: 'Observability enabled'
 ]
 
 { #category : 'accessing' }
@@ -104,10 +100,6 @@ MCPMonitoringState >> enabled: aBoolean [
 { #category : 'logging' }
 MCPMonitoringState >> ensureLogger [
 
-	logger ifNil: [ logger := TinyLogger new ].
-	memoryLogger ifNil: [
-		memoryLogger := MCPMemoryTinyLogger new.
-		logger addLogger: memoryLogger ].
 	^ logger
 ]
 
@@ -177,8 +169,7 @@ MCPMonitoringState >> logger [
 { #category : 'logging' }
 MCPMonitoringState >> logs [
 
-	memoryLogger ifNil: [ ^ #(  ) ].
-	^ memoryLogger recentEntries
+	^ #()
 ]
 
 { #category : 'accessing' }
@@ -209,12 +200,6 @@ MCPMonitoringState >> maxTraceDepth [
 MCPMonitoringState >> maxTraceStringLength [
 
 	^ 4000
-]
-
-{ #category : 'accessing' }
-MCPMonitoringState >> memoryLogger [
-
-	^ memoryLogger
 ]
 
 { #category : 'accessing' }
@@ -286,41 +271,33 @@ MCPMonitoringState >> recentCalls [
 	^ recentCalls ifNil: [ recentCalls := OrderedCollection new ]
 ]
 
-{ #category : 'logging' }
-MCPMonitoringState >> recordLog: aString [
-
-	self enabled ifFalse: [ ^ self ].
-	self ensureLogger record: aString
-]
-
-{ #category : 'recording' }
+{ #category : 'operations' }
 MCPMonitoringState >> recordToolCallFinish: aRecord result: aToolResult error: anError [
-
 	| finishTimestamp duration statusString stats explanation |
+	
 	aRecord ifNil: [ ^ self ].
 	self enabled ifFalse: [ ^ self ].
 	finishTimestamp := DateAndTime now.
 	duration := (finishTimestamp - aRecord startedAt) asMilliSeconds.
 	statusString := self statusForResult: aToolResult error: anError.
 	stats := self statsForToolNamed: aRecord toolName.
-	explanation := self
-		               outlierExplanationForDurationMilliseconds: duration
-		               stats: stats.
-	aRecord
-		finishAt: finishTimestamp
-		durationMilliseconds: duration
+	explanation := self outlierExplanationForDurationMilliseconds: duration stats: stats.
+	aRecord 
+		finishAt: finishTimestamp 
+		durationMilliseconds: duration 
 		status: statusString.
 	aRecord errorClass: (self errorClassNameFor: anError).
 	aRecord summary: (self summaryForResult: aToolResult).
 	aRecord outlierExplanation: explanation.
-	self
-		captureTraceSnapshotsFor: aRecord
-		result: aToolResult
+	self 
+		captureTraceSnapshotsFor: aRecord 
+		result: aToolResult 
 		error: anError.
 	stats recordCall: aRecord.
 	self addRecentCall: aRecord.
 	lastActivityAt := finishTimestamp.
-	self recordLog: (self logMessageForRecord: aRecord).
+	logger info: (self logMessageForRecord: aRecord).
+
 	^ aRecord
 ]
 
@@ -330,21 +307,17 @@ MCPMonitoringState >> recordToolCallStart: aToolName [
 	^ self recordToolCallStart: aToolName input: nil
 ]
 
-{ #category : 'recording' }
+{ #category : 'operations' }
 MCPMonitoringState >> recordToolCallStart: aToolName input: inputObject [
 
 	| record startTimestamp |
 	self enabled ifFalse: [ ^ nil ].
 	nextCallId := self nextCallId + 1.
 	startTimestamp := DateAndTime now.
-	record := MCPToolCallRecord
-		          id: self nextCallId
-		          toolName: aToolName asString
-		          startedAt: startTimestamp.
+	record := MCPToolCallRecord id: self nextCallId toolName: aToolName asString startedAt: startTimestamp.
 	record inputObject: inputObject.
 	lastActivityAt := startTimestamp.
-	self recordLog:
-		'Begin tool ' , aToolName asString , ' #' , record id asString.
+	logger info: 'Begin tool ' , aToolName asString , ' #' , record id asString.
 	^ record
 ]
 
