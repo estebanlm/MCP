@@ -97,12 +97,6 @@ MCPMonitoringState >> enabled: aBoolean [
 		ifFalse: [ self disable ]
 ]
 
-{ #category : 'logging' }
-MCPMonitoringState >> ensureLogger [
-
-	^ logger
-]
-
 { #category : 'private' }
 MCPMonitoringState >> errorClassNameFor: anError [
 
