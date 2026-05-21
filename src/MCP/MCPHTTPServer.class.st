@@ -107,3 +107,15 @@ MCPHTTPServer >> localUrl [
 
 	^ server localUrl
 ]
+
+{ #category : 'logging' }
+MCPHTTPServer >> loggingOff [
+
+	server loggingOff
+]
+
+{ #category : 'logging' }
+MCPHTTPServer >> loggingOn [
+
+	server loggingOn
+]
