@@ -93,12 +93,6 @@ MCPToolFindClasses >> defaultFilterTargets [
 ]
 
 { #category : 'defaults' }
-MCPToolFindClasses >> defaultIcons [
-
-	^ { (self pngCompositeBaseIconNamed: #class badgeIconNamed: #search) }
-]
-
-{ #category : 'defaults' }
 MCPToolFindClasses >> defaultInputSchema [
 
 	| properties |

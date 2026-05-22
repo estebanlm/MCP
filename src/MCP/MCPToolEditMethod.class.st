@@ -96,12 +96,6 @@ MCPToolEditMethod >> defaultDescription [
 ]
 
 { #category : 'defaults' }
-MCPToolEditMethod >> defaultIcons [
-
-	^ { (self pngCompositeBaseIconNamed: #page badgeIconNamed: #edit) }
-]
-
-{ #category : 'defaults' }
 MCPToolEditMethod >> defaultInputSchema [
 
 	^ MCPStructureInputSchema new

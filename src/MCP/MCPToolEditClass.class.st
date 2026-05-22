@@ -92,12 +92,6 @@ MCPToolEditClass >> defaultDescription [
 ]
 
 { #category : 'defaults' }
-MCPToolEditClass >> defaultIcons [
-
-	^ { (self pngCompositeBaseIconNamed: #class badgeIconNamed: #edit) }
-]
-
-{ #category : 'defaults' }
 MCPToolEditClass >> defaultInputSchema [
 
 	^ MCPStructureInputSchema new

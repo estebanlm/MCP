@@ -46,12 +46,6 @@ MCPToolInspectMethod >> defaultDescription [
 ]
 
 { #category : 'defaults' }
-MCPToolInspectMethod >> defaultIcons [
-
-	^ { (self pngCompositeBaseIconNamed: #page badgeIconNamed: #inspect) }
-]
-
-{ #category : 'defaults' }
 MCPToolInspectMethod >> defaultInputSchema [
 
 	| classSideProperty includeVariableDetailsProperty |

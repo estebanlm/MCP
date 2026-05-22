@@ -8,19 +8,12 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'server',
-		'toolsList',
-		'monitoring'
+		'toolsList'
 	],
 	#category : 'MCP-Server',
 	#package : 'MCP',
 	#tag : 'Server'
 }
-
-{ #category : 'monitoring' }
-MCP >> clearMonitoring [
-
-	self monitoring clear
-]
 
 { #category : 'configuration' }
 MCP >> configurePort: aPortNumber debugMode: aBoolean [
@@ -98,55 +91,7 @@ MCP >> localUrlString [
 	^ self server localUrl asString
 ]
 
-{ #category : 'accessing' }
-MCP >> monitoring [
-
-	^ monitoring ifNil: [ monitoring := MCPMonitoringState new ]
-]
-
-{ #category : 'monitoring' }
-MCP >> monitoringEnabled [
-
-	^ self monitoring enabled
-]
-
-{ #category : 'monitoring' }
-MCP >> monitoringEnabled: aBoolean [
-
-	self monitoring enabled: aBoolean
-]
-
-{ #category : 'monitoring' }
-MCP >> monitoringLogs [
-
-	^ self monitoring logs
-]
-
-{ #category : 'monitoring' }
-MCP >> monitoringMetrics [
-
-	^ self monitoring metrics
-]
-
-{ #category : 'monitoring' }
-MCP >> monitoringRecentCalls [
-
-	^ self monitoring recentCallRecords
-]
-
-{ #category : 'monitoring' }
-MCP >> monitoringStatusText [
-
-	^ self monitoring statusText
-]
-
-{ #category : 'monitoring' }
-MCP >> monitoringTraces [
-
-	^ self monitoring traceRecords
-]
-
-{ #category : 'start' }
+{ #category : 'json rpc' }
 MCP >> onInitialize: protocolVersion capabilities: capabilities clientInfo: clientInfo websiteUrl: websiteUrl [
 
 	<jrpc: #initialize>
@@ -161,7 +106,7 @@ MCP >> onInitialize: protocolVersion capabilities: capabilities clientInfo: clie
 				   version: '1.0.0';
 				   description: 'a MCP server for Pharo';
 				   websiteUrl: 'https://badetitou.fr';
-				   icons: { (MCPStructureIcon pngIconNamed: #pharo) };
+				   icons: { };
 				   yourself)
 ]
 
@@ -223,17 +168,14 @@ MCP >> rpcResourcesTemplateList [
 	^ { (#resourceTemplates -> {  }) } asDictionary
 ]
 
-{ #category : 'rpc' }
+{ #category : 'json rpc' }
 MCP >> rpcToolCall: name withParams: arguments [
 
 	<jrpc: #'tools/call'>
 	toolsList
 		at: name
 		ifPresent: [ :tool |
-			| monitorRecord request result toolResult |
-			monitorRecord := self monitoring
-				                 recordToolCallStart: name
-				                 input: arguments.
+			| request result toolResult |
 			^ [
 			  request := tool requestFromToolCallArguments: arguments.
 			  result := tool executeWithRequest: request.
@@ -242,25 +184,12 @@ MCP >> rpcToolCall: name withParams: arguments [
 				                ifFalse: [
 				                MCPStructureCallToolResult content: result ].
 			  self saveImageAfterSuccessfulTool: tool result: toolResult.
-			  self monitoring
-				  recordToolCallFinish: monitorRecord
-				  result: toolResult
-				  error: nil.
 			  toolResult asJRPCJSON ]
 				  on: Exception
 				  do: [ :error |
 					  | errorResult |
-					  (error isKindOf: JRPCError) ifTrue: [
-						  self monitoring
-							  recordToolCallFinish: monitorRecord
-							  result: nil
-							  error: error.
-						  error pass ].
+					  (error isKindOf: JRPCError) ifTrue: [ error pass ].
 					  errorResult := tool errorResultFor: error.
-					  self monitoring
-						  recordToolCallFinish: monitorRecord
-						  result: errorResult
-						  error: error.
 					  errorResult asJRPCJSON ] ]
 		ifAbsent: [ JRPCNonExistentHandler signal: name ]
 ]

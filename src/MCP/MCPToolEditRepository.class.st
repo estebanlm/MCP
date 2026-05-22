@@ -111,12 +111,6 @@ MCPToolEditRepository >> defaultDescription [
 ]
 
 { #category : 'defaults' }
-MCPToolEditRepository >> defaultIcons [
-
-	^ { (self pngCompositeBaseIconNamed: #box badgeIconNamed: #edit) }
-]
-
-{ #category : 'defaults' }
 MCPToolEditRepository >> defaultInputSchema [
 
 	^ MCPStructureInputSchema new

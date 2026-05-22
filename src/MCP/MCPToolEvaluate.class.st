@@ -25,12 +25,6 @@ MCPToolEvaluate >> defaultDescription [
 ]
 
 { #category : 'defaults' }
-MCPToolEvaluate >> defaultIcons [
-
-	^ { (self pngIconNamed: #go) }
-]
-
-{ #category : 'defaults' }
 MCPToolEvaluate >> defaultInputSchema [
 
 	^ MCPStructureInputSchema new

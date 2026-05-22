@@ -149,7 +149,7 @@ MCPTool >> defaultHandler [
 { #category : 'defaults' }
 MCPTool >> defaultIcons [
 
-	self subclassResponsibility
+	^ #(  )
 ]
 
 { #category : 'defaults' }
@@ -465,26 +465,12 @@ MCPTool >> parsedRequestFromToolRequest: request [
 ]
 
 { #category : 'private - icons' }
-MCPTool >> pngCompositeBaseIconNamed: aBaseIconSymbol badgeIconNamed: aBadgeIconSymbol [
-
-	^ MCPStructureIcon
-		  compositeBaseIconNamed: aBaseIconSymbol
-		  badgeIconNamed: aBadgeIconSymbol
-]
-
-{ #category : 'private - icons' }
 MCPTool >> pngDataUriForForm: aForm [
 
 	| bytes |
 	bytes := ByteArray streamContents: [ :stream |
 		         PNGReadWriter putForm: aForm onStream: stream ].
 	^ 'data:image/png;base64,' , bytes base64Encoded
-]
-
-{ #category : 'private - icons' }
-MCPTool >> pngIconNamed: anIconSymbol [
-
-	^ MCPStructureIcon pngIconNamed: anIconSymbol
 ]
 
 { #category : 'private - icons' }

@@ -137,12 +137,6 @@ MCPToolInspectClass >> defaultDescription [
 ]
 
 { #category : 'defaults' }
-MCPToolInspectClass >> defaultIcons [
-
-	^ { (self pngCompositeBaseIconNamed: #class badgeIconNamed: #inspect) }
-]
-
-{ #category : 'defaults' }
 MCPToolInspectClass >> defaultInputSchema [
 
 	| includeCommentProperty upToSuperclassNameProperty subclassDepthProperty |

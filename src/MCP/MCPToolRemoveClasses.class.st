@@ -44,12 +44,6 @@ MCPToolRemoveClasses >> defaultDescription [
 ]
 
 { #category : 'defaults' }
-MCPToolRemoveClasses >> defaultIcons [
-
-	^ { (self pngCompositeBaseIconNamed: #class badgeIconNamed: #delete) }
-]
-
-{ #category : 'defaults' }
 MCPToolRemoveClasses >> defaultInputSchema [
 
 	^ MCPStructureInputSchema new

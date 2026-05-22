@@ -175,12 +175,6 @@ MCPToolManageChangeHistory >> defaultDescription [
 ]
 
 { #category : 'defaults' }
-MCPToolManageChangeHistory >> defaultIcons [
-
-	^ { (self pngIconNamed: #recoverLostChanges) }
-]
-
-{ #category : 'defaults' }
 MCPToolManageChangeHistory >> defaultInputSchema [
 
 	^ MCPStructureInputSchema new

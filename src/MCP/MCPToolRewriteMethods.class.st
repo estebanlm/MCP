@@ -25,14 +25,6 @@ MCPToolRewriteMethods >> defaultDescription [
 ]
 
 { #category : 'defaults' }
-MCPToolRewriteMethods >> defaultIcons [
-
-	^ { (self
-		   pngCompositeBaseIconNamed: #page
-		   badgeIconNamed: #refreshCircling) }
-]
-
-{ #category : 'defaults' }
 MCPToolRewriteMethods >> defaultInputSchema [
 
 	| schema |

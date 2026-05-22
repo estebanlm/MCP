@@ -53,12 +53,6 @@ MCPToolFindMethods >> defaultFilterTargets [
 ]
 
 { #category : 'defaults' }
-MCPToolFindMethods >> defaultIcons [
-
-	^ { (self pngCompositeBaseIconNamed: #page badgeIconNamed: #search) }
-]
-
-{ #category : 'defaults' }
 MCPToolFindMethods >> defaultInputSchema [
 
 	| properties |

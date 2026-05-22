@@ -218,12 +218,6 @@ MCPToolRunTests >> defaultDescription [
 ]
 
 { #category : 'defaults' }
-MCPToolRunTests >> defaultIcons [
-
-	^ { (self pngIconNamed: #testRunner) }
-]
-
-{ #category : 'defaults' }
 MCPToolRunTests >> defaultInputSchema [
 
 	^ MCPStructureInputSchema new

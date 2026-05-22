@@ -22,12 +22,6 @@ MCPToolFindPackages >> defaultFilterTargets [
 ]
 
 { #category : 'defaults' }
-MCPToolFindPackages >> defaultIcons [
-
-	^ { (self pngCompositeBaseIconNamed: #open badgeIconNamed: #search) }
-]
-
-{ #category : 'defaults' }
 MCPToolFindPackages >> defaultInputSchema [
 
 	| properties |

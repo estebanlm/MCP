@@ -47,12 +47,6 @@ MCPToolLoadRepository >> defaultHostUrl [
 ]
 
 { #category : 'defaults' }
-MCPToolLoadRepository >> defaultIcons [
-
-	^ { (self pngCompositeBaseIconNamed: #box badgeIconNamed: #add) }
-]
-
-{ #category : 'defaults' }
 MCPToolLoadRepository >> defaultInputSchema [
 
 	^ MCPStructureInputSchema new
