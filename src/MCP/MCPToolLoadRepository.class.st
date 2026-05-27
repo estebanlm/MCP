@@ -194,6 +194,22 @@ MCPToolLoadRepository >> failureSummaryForError: anError loadRepositoryRequest: 
 			  nextPutAll: message ]
 ]
 
+{ #category : 'private - results' }
+MCPToolLoadRepository >> formattedDataContentBlocks: aDictionary [
+
+	| mode load lines |
+	mode := aDictionary at: #mode ifAbsent: [ ^ #(  ) ].
+	load := aDictionary at: #load ifAbsent: [ ^ #(  ) ].
+	lines := OrderedCollection new.
+	lines add: 'Baseline: ' , (load at: #baseline ifAbsent: [ '' ]).
+	lines add: 'Mode: ' , mode.
+	(load at: #newPackageNames ifAbsent: [ nil ]) ifNotNil: [ :pkgs |
+		pkgs ifNotEmpty: [ lines add: 'New packages: ' , (', ' join: pkgs) ] ].
+	(load at: #repositoryInfos ifAbsent: [ #(  ) ]) ifNotEmpty: [ :repos | repos do: [ :r | lines add: 'Repo: ' , (r at: #name) ] ].
+	(aDictionary at: #repository ifAbsent: [ nil ]) ifNotNil: [ :repo | lines add: 'URL: ' , (repo at: #repositoryUrl) ].
+	^ { (self textContent: (lines joinUsing: String cr)) }
+]
+
 { #category : 'private - schema' }
 MCPToolLoadRepository >> groupsSchemaProperty [
 

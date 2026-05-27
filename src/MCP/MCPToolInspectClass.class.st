@@ -280,6 +280,51 @@ MCPToolInspectClass >> failureMessageForClassName: className error: anError [
 			  nextPutAll: anError messageText ]
 ]
 
+{ #category : 'private - results' }
+MCPToolInspectClass >> formattedDataContentBlocks: aDictionary [
+
+	| lines suprCount subCount superclass slots traits methods |
+	lines := OrderedCollection new.
+	lines add: 'Class: ' , (aDictionary at: #className).
+	suprCount := (aDictionary at: #superclasses) size.
+	subCount := (aDictionary at: #subclasses) size.
+	suprCount = 0
+		ifFalse: [ lines add: 'Superclasses: ' , suprCount asString ]
+		ifTrue: [ lines add: 'Superclass: ' , (aDictionary at: #superclassName) ].
+	subCount = 0 ifFalse: [ lines add: 'Subclasses: ' , subCount asString ].
+	lines add: 'Package: ' , (aDictionary at: #packageName).
+	(aDictionary at: #tag) ifNotEmpty: [ :t | lines add: 'Tag: ' , t ].
+	superclass := aDictionary at: #superclassName.
+	superclass isEmpty ifFalse: [ (suprCount = 0 and: [ subCount = 0 ]) ifTrue: [ lines add: 'Superclass: ' , superclass ] ].
+	slots := String streamContents: [ :s |
+			         s nextPutAll: 'Slots: ['.
+			         (aDictionary at: #instanceSlotNames) do: [ :each |
+					         s
+						         space;
+						         nextPutAll: each ].
+			         s nextPutAll: ' ]' ].
+	lines add: slots.
+	(aDictionary at: #classSlotNames) ifNotEmpty: [ :classSlots |
+			slots := String streamContents: [ :s |
+					         s nextPutAll: 'ClassSlots: ['.
+					         classSlots do: [ :each |
+							         s
+								         space;
+								         nextPutAll: each ].
+					         s nextPutAll: ' ]' ].
+			lines add: slots ].
+	traits := (aDictionary at: #traitNames) ifEmpty: [ #(  ) ].
+	traits isEmpty ifFalse: [ lines add: 'Traits: [' , (' ' join: traits) , ' ]' ].
+	traits := (aDictionary at: #classTraitNames) ifEmpty: [ #(  ) ].
+	traits isEmpty ifFalse: [ lines add: 'ClassTraits: [' , (' ' join: traits) , ' ]' ].
+	methods := 'Instance methods: ' , (aDictionary at: #instanceMethodCount) asString , ' / Class methods: '
+	           , (aDictionary at: #classMethodCount) asString.
+	lines add: methods.
+	(aDictionary at: #classComment ifAbsent: [ nil ]) ifNotNil: [ :comment |
+		comment isEmpty ifFalse: [ lines add: 'Comment: ' , comment ] ].
+	^ { (self textContent: (lines joinUsing: String cr)) }
+]
+
 { #category : 'private - request' }
 MCPToolInspectClass >> parsedRequestFromToolRequest: request [
 

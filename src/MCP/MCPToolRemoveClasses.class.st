@@ -245,6 +245,18 @@ MCPToolRemoveClasses >> failureMessageForClassNames: classNames error: anError [
 			  nextPutAll: anError messageText ]
 ]
 
+{ #category : 'private - results' }
+MCPToolRemoveClasses >> formattedDataContentBlocks: aDictionary [
+
+	| classNames removedPackageNames lines |
+	classNames := aDictionary at: #classNames ifAbsent: [ ^ #(  ) ].
+	removedPackageNames := aDictionary at: #removedPackageNames ifAbsent: [ #(  ) ].
+	lines := OrderedCollection new.
+	lines add: 'Removed classes: ' , (', ' join: classNames).
+	removedPackageNames ifNotEmpty: [ lines add: 'Removed packages: ' , (', ' join: removedPackageNames) ].
+	^ { (self textContent: (lines joinUsing: String cr)) }
+]
+
 { #category : 'private - request' }
 MCPToolRemoveClasses >> parsedRequestFromToolRequest: request [
 

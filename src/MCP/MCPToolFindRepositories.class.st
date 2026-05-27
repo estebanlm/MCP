@@ -121,6 +121,24 @@ MCPToolFindRepositories >> filterTextsForRepositoryEntry: anEntry targets: filte
 	^ texts asArray
 ]
 
+{ #category : 'private - results' }
+MCPToolFindRepositories >> formattedDataContentBlocks: aDictionary [
+
+	| repositories lines |
+	repositories := aDictionary at: #repositories ifAbsent: [ ^ #(  ) ].
+	repositories isEmpty ifTrue: [ ^ #(  ) ].
+	lines := repositories collect: [ :each |
+			         | label isModified isMissing |
+			         label := each at: #name.
+			         isModified := each at: #isModified ifAbsent: [ false ].
+			         isMissing := each at: #isMissing ifAbsent: [ false ].
+			         isModified ifTrue: [ label := label , ' (modified)' ].
+			         isMissing ifTrue: [ label := label , ' (missing)' ].
+			         label ].
+	^ { (self textContent: (lines joinUsing: '
+')) }
+]
+
 { #category : 'private - filtering' }
 MCPToolFindRepositories >> matchesFilterOnRepositoryEntry: anEntry matcher: aMatcher targets: filterTargets [
 

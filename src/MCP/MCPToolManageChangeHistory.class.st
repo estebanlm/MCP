@@ -387,6 +387,31 @@ MCPToolManageChangeHistory >> executeWithRequest: request [
 				  ifFalse: [ self errorResultFor: error ] ]
 ]
 
+{ #category : 'private - results' }
+MCPToolManageChangeHistory >> formattedDataContentBlocks: aDictionary [
+
+	| lines operation entries performed |
+	operation := aDictionary at: #operation ifAbsent: [ ^ #(  ) ].
+	lines := OrderedCollection new.
+	operation = 'listEntries' ifTrue: [
+			lines add: 'History file: ' , (aDictionary at: #historyFilePath).
+			lines add: 'Total entries: ' , (aDictionary at: #totalCount) asString.
+			entries := aDictionary at: #entries ifAbsent: [ #(  ) ].
+			entries do: [ :entry | lines add: (entry at: #index) asString , ': ' , (entry at: #label) ].
+			^ { (self textContent: (lines joinUsing: String cr)) } ].
+	(operation = 'applyEntries' or: [ operation = 'revertEntries' ]) ifTrue: [
+			performed := aDictionary at: #performed ifAbsent: [ false ].
+			lines add: 'Operation: ' , operation.
+			lines
+				add: performed
+				ifTrue: [ 'Performed ' , (aDictionary at: #performedCount) asString , ' entries' ]
+				ifFalse: [ 'Preview of ' , (aDictionary at: #selectedCount) asString , ' entries' ].
+			(aDictionary at: #skippedNonCodeChangeCount ifAbsent: [ 0 ]) > 0 ifTrue: [
+				lines add: 'Skipped ' , (aDictionary at: #skippedNonCodeChangeCount) asString , ' non-code changes' ].
+			^ { (self textContent: (lines joinUsing: String cr)) } ].
+	^ #(  )
+]
+
 { #category : 'private - schema' }
 MCPToolManageChangeHistory >> integerArraySchemaNamed: aName description: aDescription itemDescription: anItemDescription [
 

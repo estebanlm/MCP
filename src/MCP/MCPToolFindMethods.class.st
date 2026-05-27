@@ -115,6 +115,24 @@ MCPToolFindMethods >> filterTextsForMethodEntry: anEntry sourceText: sourceText 
 	^ texts asArray
 ]
 
+{ #category : 'private - results' }
+MCPToolFindMethods >> formattedDataContentBlocks: aDictionary [
+
+	| methods lines |
+	methods := aDictionary at: #methods ifAbsent: [ ^ #(  ) ].
+	methods isEmpty ifTrue: [ ^ #(  ) ].
+	lines := methods collect: [ :each |
+			         | label source |
+			         label := (each at: #className) , '>>' , (each at: #selector).
+			         (each at: #classSide ifAbsent: [ false ]) ifTrue: [ label := label , ' [class]' ].
+			         source := each at: #source ifAbsent: [ nil ].
+			         source ifNil: [ label ] ifNotNil: [ label , '
+' , source ] ].
+	^ { (self textContent: (lines joinUsing: '
+
+')) }
+]
+
 { #category : 'private - methods' }
 MCPToolFindMethods >> implementorEntriesForQueryRequest: queryRequest [
 

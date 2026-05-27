@@ -158,6 +158,17 @@ MCPToolFindClasses >> filterTextsForClassEntry: anEntry targets: filterTargets [
 	^ texts asArray
 ]
 
+{ #category : 'private - results' }
+MCPToolFindClasses >> formattedDataContentBlocks: aDictionary [
+
+	| classes lines |
+	classes := aDictionary at: #classes ifAbsent: [ ^ #(  ) ].
+	classes isEmpty ifTrue: [ ^ #(  ) ].
+	lines := classes collect: [ :each | (each at: #className) , ' [' , (each at: #packageName) , ']' ].
+	^ { (self textContent: (lines joinUsing: '
+')) }
+]
+
 { #category : 'private - filtering' }
 MCPToolFindClasses >> matchesFilterOnClassEntry: anEntry matcher: aMatcher targets: filterTargets [
 

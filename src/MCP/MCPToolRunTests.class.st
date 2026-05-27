@@ -342,6 +342,30 @@ MCPToolRunTests >> failureMessageForTests: testRequests error: anError [
 			  nextPutAll: anError messageText ]
 ]
 
+{ #category : 'private - results' }
+MCPToolRunTests >> formattedDataContentBlocks: aDictionary [
+
+	| results lines |
+	results := aDictionary at: #results ifAbsent: [ ^ #(  ) ].
+	lines := OrderedCollection new.
+	results do: [ :each |
+			| className runCount issues failCount errorCount |
+			className := each at: #className.
+			runCount := each at: #runCount.
+			issues := each at: #issues ifAbsent: [ #(  ) ].
+			failCount := 0.
+			errorCount := 0.
+			issues do: [ :issue |
+					(issue at: #kind) = 'failure' ifTrue: [ failCount := failCount + 1 ].
+					(issue at: #kind) = 'error' ifTrue: [ errorCount := errorCount + 1 ] ].
+			lines add:
+				className , ': ' , runCount asString , ' run, ' , failCount asString , ' failures, ' , errorCount asString , ' errors' ].
+	(aDictionary at: #coverage ifAbsent: [ nil ]) ifNotNil: [ :cov |
+		lines add: 'Coverage: ' , (cov at: #methodCount) asString , ' methods' ].
+	(aDictionary at: #timedOut ifAbsent: [ false ]) ifTrue: [ lines add: 'TIMED OUT' ].
+	^ { (self textContent: (lines joinUsing: String cr)) }
+]
+
 { #category : 'private - schema' }
 MCPToolRunTests >> operationBranchSchemas [
 

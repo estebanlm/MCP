@@ -187,6 +187,16 @@ MCPToolInspectMethod >> failureMessageForClassNamed: className selector: selecto
 			  nextPutAll: anError messageText ]
 ]
 
+{ #category : 'private - results' }
+MCPToolInspectMethod >> formattedDataContentBlocks: aDictionary [
+
+	| source protocol |
+	source := aDictionary at: #source ifAbsent: [ '' ].
+	source isEmpty ifTrue: [ ^ #(  ) ].
+	protocol := aDictionary at: #protocol ifAbsent: [ '' ].
+	^ { (self textContent: protocol , '>>>' , source) }
+]
+
 { #category : 'private - analysis' }
 MCPToolInspectMethod >> incrementReferenceCountInSummary: aSummary [
 

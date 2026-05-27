@@ -84,6 +84,17 @@ MCPToolFindPackages >> filterTextsForPackageEntry: anEntry targets: filterTarget
 	^ texts asArray
 ]
 
+{ #category : 'private - results' }
+MCPToolFindPackages >> formattedDataContentBlocks: aDictionary [
+
+	| packages lines |
+	packages := aDictionary at: #packages ifAbsent: [ ^ #(  ) ].
+	packages isEmpty ifTrue: [ ^ #(  ) ].
+	lines := packages collect: [ :each | each at: #packageName ].
+	^ { (self textContent: (lines joinUsing: '
+')) }
+]
+
 { #category : 'private - filtering' }
 MCPToolFindPackages >> matchesFilterOnPackageEntry: anEntry matcher: aMatcher targets: filterTargets [
 

@@ -238,6 +238,18 @@ MCPToolRemoveMethods >> forceRemoveSelectors: selectorSymbols from: aBehavior [
 	refactoring performChanges
 ]
 
+{ #category : 'private - results' }
+MCPToolRemoveMethods >> formattedDataContentBlocks: aDictionary [
+
+	| className selectors sideLabel |
+	className := aDictionary at: #className ifAbsent: [ ^ #(  ) ].
+	selectors := aDictionary at: #selectors ifAbsent: [ #(  ) ].
+	sideLabel := (aDictionary at: #classSide ifAbsent: [ false ])
+		             ifTrue: [ ' class' ]
+		             ifFalse: [ '' ].
+	^ { (self textContent: 'Removed from ' , className , sideLabel , ': ' , (', ' join: selectors)) }
+]
+
 { #category : 'private - request' }
 MCPToolRemoveMethods >> parsedRequestFromToolRequest: request [
 

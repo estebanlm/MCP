@@ -332,6 +332,12 @@ MCPTool >> failureMessageFor: anError [
 				  nextPutAll: message ] ]
 ]
 
+{ #category : 'private - results' }
+MCPTool >> formattedDataContentBlocks: aDictionary [
+
+	^ #(  )
+]
+
 { #category : 'accessing' }
 MCPTool >> handler [
 
@@ -627,22 +633,15 @@ MCPTool >> successResultText: aSummary data: aDictionary [
 { #category : 'private - results' }
 MCPTool >> successResultText: aSummary data: aDictionary warnings: warningStrings [
 
-	| normalizedSummary warnings |
-	normalizedSummary := aSummary
-		                     ifNil: [ '' ]
-		                     ifNotNil: [ aSummary asString ].
-	warnings := warningStrings
-		            ifNil: [ #(  ) ]
-		            ifNotNil: [
-		            (warningStrings collect: [ :each | each asString ])
-			            asArray ].
-	^ MCPStructureCallToolResult
-		  content: { (self textContent: normalizedSummary) }
-		  structuredContent: {
-				  (#status -> 'ok').
-				  (#summary -> normalizedSummary).
-				  (#warnings -> warnings).
-				  (#data -> aDictionary) } asDictionary
+	| normalizedSummary warnings dataBlocks |
+	normalizedSummary := aSummary ifNil: [ '' ] ifNotNil: [ aSummary asString ].
+	warnings := warningStrings ifNil: [ #(  ) ] ifNotNil: [ (warningStrings collect: [ :each | each asString ]) asArray ].
+	dataBlocks := self formattedDataContentBlocks: aDictionary.
+	^ MCPStructureCallToolResult content: { (self textContent: normalizedSummary) } , dataBlocks structuredContent: {
+			  (#status -> 'ok').
+			  (#summary -> normalizedSummary).
+			  (#warnings -> warnings).
+			  (#data -> aDictionary) } asDictionary
 ]
 
 { #category : 'private - results' }

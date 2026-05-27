@@ -96,6 +96,14 @@ MCPToolEvaluate >> executeWithRequest: request [
 				  details: (self errorDetailsFor: error) ]
 ]
 
+{ #category : 'private - results' }
+MCPToolEvaluate >> formattedDataContentBlocks: aDictionary [
+
+	| resultText |
+	resultText := aDictionary at: #resultPrintString ifAbsent: [ ^ #(  ) ].
+	^ { (self textContent: 'Result: ' , resultText) }
+]
+
 { #category : 'private - request' }
 MCPToolEvaluate >> parsedRequestFromToolRequest: request [
 
