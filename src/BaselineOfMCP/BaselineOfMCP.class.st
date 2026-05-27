@@ -18,6 +18,8 @@ BaselineOfMCP >> baseline: spec [
 BaselineOfMCP >> defineDependencies: spec [
 
 	spec
+		baseline: 'PharoCompatibility' with: [
+			spec repository: 'github://Evref-BL/PharoCompatibility:main/src' ];
 		baseline: 'JRPC' with: [
 			spec
 				repository: 'github://juliendelplanque/JRPC:v3.2.1/src';
@@ -37,6 +39,6 @@ BaselineOfMCP >> defineGroups: spec [
 BaselineOfMCP >> definePackages: spec [
 
 	spec
-		package: 'MCP' with: [ spec requires: #( 'JRPC' ) ];
+		package: 'MCP' with: [ spec requires: #( 'PharoCompatibility' 'JRPC' ) ];
 		package: 'MCP-Tests' with: [ spec requires: #( 'MCP' ) ]
 ]
