@@ -9,6 +9,12 @@ Class {
 	#tag : 'Tools'
 }
 
+{ #category : 'scripts' }
+MCPToolFindPackages class >> toolGroup [
+
+	^ #Packages
+]
+
 { #category : 'defaults' }
 MCPToolFindPackages >> defaultDescription [
 

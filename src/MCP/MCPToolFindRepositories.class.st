@@ -11,6 +11,12 @@ Class {
 	#tag : 'Tools'
 }
 
+{ #category : 'scripts' }
+MCPToolFindRepositories class >> toolGroup [
+
+	^ #Repositories
+]
+
 { #category : 'defaults' }
 MCPToolFindRepositories >> defaultDescription [
 

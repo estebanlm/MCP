@@ -11,6 +11,12 @@ Class {
 	#tag : 'Tools'
 }
 
+{ #category : 'scripts' }
+MCPToolInspectClass class >> toolGroup [
+
+	^ #Classes
+]
+
 { #category : 'private - schema' }
 MCPToolInspectClass >> classDescriptionDataProperties [
 

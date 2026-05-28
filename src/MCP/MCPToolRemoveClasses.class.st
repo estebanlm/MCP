@@ -11,6 +11,12 @@ Class {
 	#tag : 'Tools'
 }
 
+{ #category : 'scripts' }
+MCPToolRemoveClasses class >> toolGroup [
+
+	^ #Classes
+]
+
 { #category : 'private - errors' }
 MCPToolRemoveClasses >> classNamesForErrorFromParsedRequest: removeRequest rawRequest: rawRequest [
 

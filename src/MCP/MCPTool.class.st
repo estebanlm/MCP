@@ -44,29 +44,18 @@ MCPTool class >> isAbstract [
 ]
 
 { #category : 'scripts' }
+MCPTool class >> toolGroup [
+
+	^ #Other
+]
+
+{ #category : 'scripts' }
 MCPTool class >> toolGroups [
 
-	^ {
-		  (#Repositories -> {
-			   MCPToolFindRepositories.
-			   MCPToolEditRepository.
-			   MCPToolLoadRepository }).
-		  (#Packages -> { MCPToolFindPackages }).
-		  (#Classes -> {
-			   MCPToolFindClasses.
-			   MCPToolInspectClass.
-			   MCPToolEditClass.
-			   MCPToolRemoveClasses }).
-		  (#Methods -> {
-			   MCPToolFindMethods.
-			   MCPToolInspectMethod.
-			   MCPToolEditMethod.
-			   MCPToolRewriteMethods.
-			   MCPToolRemoveMethods }).
-		  (#History -> { MCPToolManageChangeHistory }).
-		  (#Tests -> { MCPToolRunTests }).
-		  (#UI -> { MCPToolCaptureScreenshot }).
-		  (#Scripting -> { MCPToolEvaluate }) }
+	| groups |
+	groups := OrderedDictionary new.
+	self concreteSubclasses do: [ :each | (groups at: each toolGroup ifAbsentPut: [ OrderedCollection new ]) add: each ].
+	^ groups associations
 ]
 
 { #category : 'scripts' }

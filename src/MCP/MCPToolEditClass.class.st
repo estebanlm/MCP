@@ -11,6 +11,12 @@ Class {
 	#tag : 'Tools'
 }
 
+{ #category : 'scripts' }
+MCPToolEditClass class >> toolGroup [
+
+	^ #Classes
+]
+
 { #category : 'private - schema' }
 MCPToolEditClass >> appliedChangeOutputSchemaProperty [
 

@@ -13,6 +13,12 @@ Class {
 	#tag : 'Tools'
 }
 
+{ #category : 'scripts' }
+MCPToolRunTests class >> toolGroup [
+
+	^ #Tests
+]
+
 { #category : 'private - execution' }
 MCPToolRunTests >> commandForRequest: runTestsRequest [
 

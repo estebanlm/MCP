@@ -9,6 +9,12 @@ Class {
 	#tag : 'Tools'
 }
 
+{ #category : 'scripts' }
+MCPToolLoadRepository class >> toolGroup [
+
+	^ #Repositories
+]
+
 { #category : 'private - execution' }
 MCPToolLoadRepository >> commandForRequest: loadRepositoryRequest [
 

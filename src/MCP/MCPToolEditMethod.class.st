@@ -11,6 +11,12 @@ Class {
 	#tag : 'Tools'
 }
 
+{ #category : 'scripts' }
+MCPToolEditMethod class >> toolGroup [
+
+	^ #Methods
+]
+
 { #category : 'private - refactoring' }
 MCPToolEditMethod >> addParameterRefactoringForSelector: oldSelectorSymbol inBehavior: aBehavior to: newSelectorSymbol permutation: permutation newArgs: newArguments model: refactoringModel [
 

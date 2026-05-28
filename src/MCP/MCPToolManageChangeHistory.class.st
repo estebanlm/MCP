@@ -11,6 +11,12 @@ Class {
 	#tag : 'Tools'
 }
 
+{ #category : 'scripts' }
+MCPToolManageChangeHistory class >> toolGroup [
+
+	^ #History
+]
+
 { #category : 'private - operations' }
 MCPToolManageChangeHistory >> canonicalOperationNames [
 

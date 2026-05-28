@@ -9,6 +9,12 @@ Class {
 	#tag : 'Tools'
 }
 
+{ #category : 'scripts' }
+MCPToolEditRepository class >> toolGroup [
+
+	^ #Repositories
+]
+
 { #category : 'private - execution' }
 MCPToolEditRepository >> commandForRequest: editRequest [
 

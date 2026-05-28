@@ -11,6 +11,12 @@ Class {
 	#tag : 'Tools'
 }
 
+{ #category : 'scripts' }
+MCPToolInspectMethod class >> toolGroup [
+
+	^ #Methods
+]
+
 { #category : 'private - analysis' }
 MCPToolInspectMethod >> bindingClassNameFor: aBinding [
 

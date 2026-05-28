@@ -12,6 +12,12 @@ Class {
 	#tag : 'Tools'
 }
 
+{ #category : 'scripts' }
+MCPToolRewriteMethods class >> toolGroup [
+
+	^ #Methods
+]
+
 { #category : 'private - execution' }
 MCPToolRewriteMethods >> commandForRequest: rewriteRequest [
 

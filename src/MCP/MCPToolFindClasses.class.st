@@ -11,6 +11,12 @@ Class {
 	#tag : 'Tools'
 }
 
+{ #category : 'scripts' }
+MCPToolFindClasses class >> toolGroup [
+
+	^ #Classes
+]
+
 { #category : 'private - filtering' }
 MCPToolFindClasses >> classEntriesForRequest: queryRequest [
 

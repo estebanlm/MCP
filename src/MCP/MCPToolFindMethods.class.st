@@ -10,6 +10,12 @@ Class {
 	#tag : 'Tools'
 }
 
+{ #category : 'scripts' }
+MCPToolFindMethods class >> toolGroup [
+
+	^ #Methods
+]
+
 { #category : 'private - searching' }
 MCPToolFindMethods >> classBindingForClassName: aClassName [
 
