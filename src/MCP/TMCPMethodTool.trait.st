@@ -132,7 +132,7 @@ TMCPMethodTool >> methodScopeQueryFromRequest: request [
 	classNames ifEmpty: [
 			| singular |
 			singular := request stringArgumentNamed: 'className'.
-			singular ifNotEmpty: [ classNames := Array with: singular ] ].
+			singular isEmptyOrNil ifFalse: [ classNames := Array with: singular ] ].
 	^ MCPCompiledMethodScopeQuery new
 		  packageNames: (request stringCollectionArgumentNamed: 'packageNames');
 		  classNames: classNames;
