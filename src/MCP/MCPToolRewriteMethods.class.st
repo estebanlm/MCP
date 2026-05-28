@@ -27,16 +27,12 @@ MCPToolRewriteMethods >> defaultDescription [
 { #category : 'defaults' }
 MCPToolRewriteMethods >> defaultInputSchema [
 
-	| schema |
-	schema := MCPStructureInputSchema new
-		          type: 'object';
-		          properties: self rewriteInputProperties;
-		          required: #( 'rules' );
-		          additionalProperties: false;
-		          yourself.
-	schema allOf:
-		{ self expectedChangeSetHashRequiredWhenApplyingSchema }.
-	^ schema
+	^ MCPStructureInputSchema new
+		  type: 'object';
+		  properties: self rewriteInputProperties;
+		  required: #( 'rules' );
+		  additionalProperties: false;
+		  yourself
 ]
 
 { #category : 'defaults' }
