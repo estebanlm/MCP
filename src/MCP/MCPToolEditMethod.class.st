@@ -120,14 +120,12 @@ MCPToolEditMethod >> defaultInputSchema [
 				  (MCPStructureProperties new
 					   name: 'selector';
 					   type: 'string';
-					   description:
-						   'The existing selector to patch during operation=update. Not used for operation=create.';
+					   description: 'The existing selector to patch during operation=update. Not used for operation=create.';
 					   yourself).
 				  (MCPStructureProperties new
 					   name: 'methodSource';
 					   type: 'string';
-					   description:
-						   'The full method source to compile when operation=create.';
+					   description: 'The full method source to compile when operation=create.';
 					   yourself).
 				  (MCPStructureProperties new
 					   name: 'protocol';
@@ -148,8 +146,7 @@ MCPToolEditMethod >> defaultInputSchema [
 						    'Optional target-argument map for newSelector. Positive entries are 1-based indexes into the old selector arguments. Negative entries mark newly added argument positions. For removal, list the kept old argument indexes.')
 					   items: (MCPStructureProperties new
 							    type: 'integer';
-							    description:
-								    'An old argument index, or a negative placeholder for an added argument.';
+							    description: 'An old argument index, or a negative placeholder for an added argument.';
 							    yourself);
 					   yourself).
 				  ((MCPStructureProperties new
@@ -169,15 +166,13 @@ MCPToolEditMethod >> defaultInputSchema [
 						    'Default call expressions for newly added arguments, in the order the added arguments appear in newSelector. Omit to use nil for each added argument.')
 					   items: (MCPStructureProperties new
 							    type: 'string';
-							    description:
-								    'A Smalltalk expression inserted at sender call sites for a newly added argument.';
+							    description: 'A Smalltalk expression inserted at sender call sites for a newly added argument.';
 							    yourself);
 					   yourself).
 				  self refactoringScopePackageNamesSchemaProperty.
 				  self refactoringScopeClassNamesSchemaProperty.
 				  self refactoringScopeHierarchyClassNamesSchemaProperty };
 		  required: #( 'operation' 'className' );
-		  oneOf: self operationBranchSchemas;
 		  additionalProperties: false;
 		  yourself
 ]

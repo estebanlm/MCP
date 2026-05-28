@@ -198,18 +198,15 @@ MCPToolManageChangeHistory >> defaultInputSchema [
 						   'Optional path to a .ombu change history file. Omit to inspect or change from the current image change history.').
 				  (self
 					   integerSchemaPropertyNamed: 'limit'
-					   description:
-						   'For operation=listEntries, maximum number of entries to return. Use 0 to request counts only.'
+					   description: 'For operation=listEntries, maximum number of entries to return. Use 0 to request counts only.'
 					   default: 100).
 				  (self
 					   integerSchemaPropertyNamed: 'offset'
-					   description:
-						   'For operation=listEntries, zero-based pagination offset after filtering and ordering.'
+					   description: 'For operation=listEntries, zero-based pagination offset after filtering and ordering.'
 					   default: 0).
 				  (self
 					   booleanSchemaPropertyNamed: 'newestFirst'
-					   description:
-						   'For operation=listEntries, return newest entries first instead of oldest first.'
+					   description: 'For operation=listEntries, return newest entries first instead of oldest first.'
 					   default: false).
 				  (self
 					   booleanSchemaPropertyNamed: 'codeChangesOnly'
@@ -243,7 +240,6 @@ MCPToolManageChangeHistory >> defaultInputSchema [
 						   'For operation=applyEntries and operation=revertEntries, false previews the selected changes and true performs the previewed changes.'
 					   default: false) };
 		  required: #( 'operation' );
-		  oneOf: self operationBranchSchemas;
 		  additionalProperties: false;
 		  yourself
 ]

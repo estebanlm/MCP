@@ -99,13 +99,12 @@ MCPToolEditClass >> defaultInputSchema [
 		  properties: {
 				  (self
 					   operationSchemaPropertyWithDescription:
-						   'The high-level class edit operation. operation=create defines a new class. operation=update is patch style: provide exactly one update action field, such as newClassName, superclassName, packageName or tag, classComment, slots and/or classSlots, traits, classTraits, sharedVariables, sharedPools, layout, or slotAction.'
+						   'The high-level class edit operation. operation=create defines a new class. operation=update is patch style: provide exactly one update action field, such as newClassName, superclassName, packageName, tag, classComment, slots, classSlots, traits, classTraits, sharedVariables, sharedPools, layout, or slotAction to perform one class edit. Omit packageName with tag to recategorize inside the current package. force=false stops on refactoring warnings and returns impactMessages plus howToProceed; force=true continues and returns warnings in the output.'
 					   supportedValuesLeadIn: 'Supported values are').
 				  (MCPStructureProperties new
 					   name: 'className';
 					   type: 'string';
-					   description:
-						   'The existing class to patch during operation=update, or the new class name for operation=create.';
+					   description: 'The existing class to patch during operation=update, or the new class name for operation=create.';
 					   yourself).
 				  (MCPStructureProperties new
 					   name: 'superclassName';
@@ -164,8 +163,7 @@ MCPToolEditClass >> defaultInputSchema [
 				  (MCPStructureProperties new
 					   name: 'newClassName';
 					   type: 'string';
-					   description:
-						   'The new class name for an operation=update rename patch; do not combine it with another update action.';
+					   description: 'The new class name for an operation=update rename patch; do not combine it with another update action.';
 					   yourself).
 				  self refactoringScopePackageNamesSchemaProperty.
 				  self refactoringScopeClassNamesSchemaProperty.
@@ -178,8 +176,7 @@ MCPToolEditClass >> defaultInputSchema [
 				  (MCPStructureProperties new
 					   name: 'slotName';
 					   type: 'string';
-					   description:
-						   'The slot name targeted by slotAction during an operation=update slot patch.';
+					   description: 'The slot name targeted by slotAction during an operation=update slot patch.';
 					   yourself).
 				  (MCPStructureProperties new
 					   name: 'newSlotName';
@@ -189,8 +186,7 @@ MCPToolEditClass >> defaultInputSchema [
 					   yourself).
 				  (self
 					   booleanSchemaPropertyNamed: 'classSide'
-					   description:
-					   'Whether slotAction targets class-side slots instead of instance-side slots.'
+					   description: 'Whether slotAction targets class-side slots instead of instance-side slots.'
 					   default: false).
 				  self forceSchemaProperty.
 				  (MCPStructureProperties new
@@ -200,7 +196,6 @@ MCPToolEditClass >> defaultInputSchema [
 						   'The class comment to assign during operation=create. During operation=update this is a set-comment patch action; use an empty string to clear the comment and do not combine it with another update action.';
 					   yourself) };
 		  required: #( 'operation' 'className' );
-		  oneOf: self operationBranchSchemas;
 		  additionalProperties: false;
 		  yourself
 ]

@@ -123,8 +123,7 @@ MCPToolEditRepository >> defaultInputSchema [
 				  (self
 					   schemaPropertyNamed: 'name'
 					   type: 'string'
-					   description:
-						   'Repository name to use when operation=create registers a new repository.').
+					   description: 'Repository name to use when operation=create registers a new repository.').
 				  (self
 					   schemaPropertyNamed: 'repositoryName'
 					   type: 'string'
@@ -135,15 +134,11 @@ MCPToolEditRepository >> defaultInputSchema [
 					   type: 'string'
 					   description:
 						   'Filesystem path for operation=create. For existing repositories, combine with repositoryName only to disambiguate duplicate names.').
-				  (self
-					   schemaPropertyNamed: 'message'
-					   type: 'string'
-					   description: 'Commit message required by operation=commit.').
+				  (self schemaPropertyNamed: 'message' type: 'string' description: 'Commit message required by operation=commit.').
 				  (self
 					   schemaPropertyNamed: 'branchName'
 					   type: 'string'
-					   description:
-						   'Branch name required by operation=createBranch and operation=switchBranch.').
+					   description: 'Branch name required by operation=createBranch and operation=switchBranch.').
 				  (self
 					   schemaPropertyNamed: 'subdirectory'
 					   type: 'string'
@@ -165,7 +160,6 @@ MCPToolEditRepository >> defaultInputSchema [
 						   'Package names to remove from repository membership during operation=update using IcePackage>>remove. This does not unload packages from the image.'
 					   itemDescription: 'A package name to remove.') };
 		  required: #( 'operation' );
-		  oneOf: self operationBranchSchemas;
 		  additionalProperties: false;
 		  yourself
 ]

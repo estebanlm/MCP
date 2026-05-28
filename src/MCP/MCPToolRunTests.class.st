@@ -238,11 +238,9 @@ MCPToolRunTests >> defaultInputSchema [
 				  self coverageOptionsObjectSchema.
 				  (self
 					   integerSchemaPropertyNamed: 'timeoutSeconds'
-					   description:
-					   'Server-side timeout for the batch. Use 0 to return immediately with all tests listed in unrunTests.'
+					   description: 'Server-side timeout for the batch. Use 0 to return immediately with all tests listed in unrunTests.'
 					   default: self defaultTimeoutSeconds) };
 		  required: #( 'tests' );
-		  oneOf: self operationBranchSchemas;
 		  yourself
 ]
 

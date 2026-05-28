@@ -56,17 +56,12 @@ MCPToolFindMethods >> defaultFilterTargets [
 MCPToolFindMethods >> defaultInputSchema [
 
 	| properties |
-	properties := self methodQueryScopeInputProperties
-	              , { self scopeModeSchemaProperty } , (self
+	properties := self methodQueryScopeInputProperties , { self scopeModeSchemaProperty } , (self
 		               methodFilteringInputPropertiesWithFilterDescription:
 		               'For field filtering, the text matched against method-entry fields. For reference lookup modes, the referenced selector, class, or variable name; required when filterMode is selectorReference, classReference, or variableReference.'
-		               includeSourceDescription:
-		               'Whether to include method source code in each result entry.'
-		               limitDescription:
-		               'Maximum number of matching methods to return. Use 0 to request counts only.').
-	^ self
-		  queryInputSchemaWithProperties: properties
-		  allOf: self requiredFilterSchemasForReferenceModes
+		               includeSourceDescription: 'Whether to include method source code in each result entry.'
+		               limitDescription: 'Maximum number of matching methods to return. Use 0 to request counts only.').
+	^ self queryInputSchemaWithProperties: properties
 ]
 
 { #category : 'defaults' }
