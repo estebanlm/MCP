@@ -22,26 +22,19 @@ Class {
 { #category : 'instance creation' }
 MCPFindClassesRequest class >> fromRequest: request tool: aTool [
 
-	| scopeQuery |
+	| classNames scopeQuery |
+	classNames := request stringCollectionArgumentNamed: 'classNames'.
+	classNames ifEmpty: [
+			| singular |
+			singular := request stringArgumentNamed: 'className'.
+			singular ifNotEmpty: [ classNames := Array with: singular ] ].
 	scopeQuery := MCPClassScopeQuery new
-		              packageNames:
-			              (request stringCollectionArgumentNamed:
-					               'packageNames');
-		              classNames:
-			              (request stringCollectionArgumentNamed: 'classNames');
-		              hierarchyClassNames:
-			              (request stringCollectionArgumentNamed:
-					               'hierarchyClassNames');
-		              subclassClassNames:
-			              (request stringCollectionArgumentNamed:
-					               'subclassClassNames');
-		              parentClassNames:
-			              (request stringCollectionArgumentNamed:
-					               'parentClassNames');
-		              scopeMode:
-			              (request
-				               stringArgumentNamed: 'scopeMode'
-				               default: 'union');
+		              packageNames: (request stringCollectionArgumentNamed: 'packageNames');
+		              classNames: classNames;
+		              hierarchyClassNames: (request stringCollectionArgumentNamed: 'hierarchyClassNames');
+		              subclassClassNames: (request stringCollectionArgumentNamed: 'subclassClassNames');
+		              parentClassNames: (request stringCollectionArgumentNamed: 'parentClassNames');
+		              scopeMode: (request stringArgumentNamed: 'scopeMode' default: 'union');
 		              yourself.
 	^ self new
 		  scopeQuery: scopeQuery;
@@ -49,12 +42,9 @@ MCPFindClassesRequest class >> fromRequest: request tool: aTool [
 		  filterTargets: (aTool filterTargetsFromRequest: request);
 		  filterMode: (aTool filterModeFromRequest: request);
 		  whereSpec: (MCPWhereSpec fromToolRequest: request);
-		  caseSensitive:
-			  (request booleanArgumentNamed: 'caseSensitive' default: true);
-		  limit:
-			  (request nonNegativeIntegerArgumentNamed: 'limit' default: 100);
-		  offset:
-			  (request nonNegativeIntegerArgumentNamed: 'offset' default: 0);
+		  caseSensitive: (request booleanArgumentNamed: 'caseSensitive' default: true);
+		  limit: (request nonNegativeIntegerArgumentNamed: 'limit' default: 100);
+		  offset: (request nonNegativeIntegerArgumentNamed: 'offset' default: 0);
 		  yourself
 ]
 

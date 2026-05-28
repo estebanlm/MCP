@@ -93,9 +93,20 @@ MCPToolQuery >> classQueryScopeInputProperties [
 	^ {
 		  self classScopePackageNamesProperty.
 		  self classScopeClassNamesProperty.
+		  self classScopeClassNameProperty.
 		  self classScopeHierarchyClassNamesProperty.
 		  self classScopeSubclassClassNamesProperty.
 		  self classScopeParentClassNamesProperty }
+]
+
+{ #category : 'private - schema' }
+MCPToolQuery >> classScopeClassNameProperty [
+
+	^ self
+		  schemaPropertyNamed: 'className'
+		  type: 'string'
+		  description:
+		  'Class scope: a single class name, convenience alias for classNames. Omit all class scope properties to search all classes.'
 ]
 
 { #category : 'private - schema' }

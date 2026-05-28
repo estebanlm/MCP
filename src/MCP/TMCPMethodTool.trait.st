@@ -48,6 +48,7 @@ TMCPMethodTool >> methodQueryScopeInputProperties [
 		  self methodSideSchemaProperty.
 		  self methodScopePackageNamesProperty.
 		  self methodScopeClassNamesProperty.
+		  self methodScopeClassNameProperty.
 		  self methodScopeHierarchyClassNamesProperty.
 		  self methodScopeSubclassClassNamesProperty.
 		  self methodScopeParentClassNamesProperty }
@@ -71,6 +72,16 @@ TMCPMethodTool >> methodReferenceForClassName: aClassName selector: aSelector is
 		  stream
 			  nextPutAll: '>>';
 			  nextPutAll: aSelector ]
+]
+
+{ #category : 'private - schema' }
+TMCPMethodTool >> methodScopeClassNameProperty [
+
+	^ self
+		  schemaPropertyNamed: 'className'
+		  type: 'string'
+		  description:
+		  'Method scope: a single class name, convenience alias for classNames. Omit all method scope properties to search all methods.'
 ]
 
 { #category : 'private - schema' }
@@ -116,16 +127,18 @@ TMCPMethodTool >> methodScopeParentClassNamesProperty [
 { #category : 'private - methods' }
 TMCPMethodTool >> methodScopeQueryFromRequest: request [
 
+	| classNames |
+	classNames := request stringCollectionArgumentNamed: 'classNames'.
+	classNames ifEmpty: [
+			| singular |
+			singular := request stringArgumentNamed: 'className'.
+			singular ifNotEmpty: [ classNames := Array with: singular ] ].
 	^ MCPCompiledMethodScopeQuery new
-		  packageNames:
-			  (request stringCollectionArgumentNamed: 'packageNames');
-		  classNames: (request stringCollectionArgumentNamed: 'classNames');
-		  hierarchyClassNames:
-			  (request stringCollectionArgumentNamed: 'hierarchyClassNames');
-		  subclassClassNames:
-			  (request stringCollectionArgumentNamed: 'subclassClassNames');
-		  parentClassNames:
-			  (request stringCollectionArgumentNamed: 'parentClassNames');
+		  packageNames: (request stringCollectionArgumentNamed: 'packageNames');
+		  classNames: classNames;
+		  hierarchyClassNames: (request stringCollectionArgumentNamed: 'hierarchyClassNames');
+		  subclassClassNames: (request stringCollectionArgumentNamed: 'subclassClassNames');
+		  parentClassNames: (request stringCollectionArgumentNamed: 'parentClassNames');
 		  side: (request stringArgumentNamed: 'side' default: 'both');
 		  yourself
 ]
