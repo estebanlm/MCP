@@ -62,7 +62,7 @@ MCPToolFindMethods >> defaultFilterTargets [
 MCPToolFindMethods >> defaultInputSchema [
 
 	| properties |
-	properties := self methodQueryScopeInputProperties , { self scopeModeSchemaProperty } , (self
+	properties := self methodQueryScopeInputProperties , { self scopeModeSchemaProperty } , { self selectorSchemaProperty } , (self
 		               methodFilteringInputPropertiesWithFilterDescription:
 		               'For field filtering, the text matched against method-entry fields. For reference lookup modes, the referenced selector, class, or variable name; required when filterMode is selectorReference, classReference, or variableReference.'
 		               includeSourceDescription: 'Whether to include method source code in each result entry.'
@@ -403,6 +403,16 @@ MCPToolFindMethods >> selectorReferenceEntriesForQueryRequest: queryRequest [
 				   matchingSelectorReferencesForSelector: selector asSymbol
 				   inMethods: queryRequest scopeQuery methods)
 		  queryRequest: queryRequest
+]
+
+{ #category : 'defaults' }
+MCPToolFindMethods >> selectorSchemaProperty [
+
+	^ self
+		  schemaPropertyNamed: 'selector'
+		  type: 'string'
+		  description:
+		  'Method selector for implementors lookup. When provided without an explicit filter, it is equivalent to filter + filterMode=exact + filterTargets=["selector"]. If an explicit filter is also provided, filter takes precedence.'
 ]
 
 { #category : 'private - methods' }

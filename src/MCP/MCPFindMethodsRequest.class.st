@@ -20,27 +20,24 @@ Class {
 	#tag : 'Requests'
 }
 
-{ #category : 'instance creation' }
+{ #category : 'parsing' }
 MCPFindMethodsRequest class >> fromRequest: request tool: aTool [
 
-	| scopeQuery |
+	| scopeQuery filterPattern |
 	scopeQuery := aTool methodScopeQueryFromRequest: request.
-	scopeQuery scopeMode:
-		(request stringArgumentNamed: 'scopeMode' default: 'union').
+	scopeQuery scopeMode: (request stringArgumentNamed: 'scopeMode' default: 'union').
+	filterPattern := aTool filterPatternFromRequest: request.
+	filterPattern ifNil: [ filterPattern := request stringArgumentNamed: 'selector' ].
 	^ self new
 		  scopeQuery: scopeQuery;
-		  filterPattern: (aTool filterPatternFromRequest: request);
+		  filterPattern: filterPattern;
 		  filterMode: (aTool filterModeFromRequest: request);
 		  filterTargets: (aTool filterTargetsFromRequest: request);
 		  whereSpec: (MCPWhereSpec fromToolRequest: request);
-		  caseSensitive:
-			  (request booleanArgumentNamed: 'caseSensitive' default: true);
-		  includeSource:
-			  (request booleanArgumentNamed: 'includeSource' default: false);
-		  limit:
-			  (request nonNegativeIntegerArgumentNamed: 'limit' default: 100);
-		  offset:
-			  (request nonNegativeIntegerArgumentNamed: 'offset' default: 0);
+		  caseSensitive: (request booleanArgumentNamed: 'caseSensitive' default: true);
+		  includeSource: (request booleanArgumentNamed: 'includeSource' default: false);
+		  limit: (request nonNegativeIntegerArgumentNamed: 'limit' default: 100);
+		  offset: (request nonNegativeIntegerArgumentNamed: 'offset' default: 0);
 		  yourself
 ]
 
