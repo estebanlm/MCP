@@ -34,12 +34,8 @@ MCPEvaluateCommand >> execute [
 		notice := aNotice.
 		nil ].
 	answer := [ compiler evaluate: request code ]
-		          on: Exception
-		          do: [ :error |
-			          (PharoCompatibility syntaxNoticeFromException: error)
-				          ifNotNil: [
-				          :syntaxNotice | ^ self syntaxFailureFor: syntaxNotice ].
-			          ^ self runtimeFailureFor: error ].
+		on: Exception
+		do: [ :error | ^ self runtimeFailureFor: error ].
 	notice ifNotNil: [ ^ self syntaxFailureFor: notice ].
 	^ MCPEvaluateResult okData: {
 			  (#resultClassName -> answer class name asString).

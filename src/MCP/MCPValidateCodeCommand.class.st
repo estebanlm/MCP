@@ -56,9 +56,7 @@ MCPValidateCodeCommand >> execute [
 	runtimeError := nil.
 	[ compiler evaluate: request code ]
 		on: Exception
-		do: [ :e |
-				(PharoCompatibility syntaxNoticeFromException: e) ifNotNil: [ :syntaxNotice | ^ self syntaxFailureFor: syntaxNotice ].
-				runtimeError := e ].
+		do: [ :e | runtimeError := e ].
 	notice ifNotNil: [ ^ self syntaxFailureFor: notice ].
 	^ self checkUnknownSelectorsWithRuntimeError: runtimeError
 ]
